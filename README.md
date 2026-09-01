@@ -32,21 +32,13 @@ DASHBOARD_EXCEL_SOURCE_URL=
 DASHBOARD_APBD_URL=/dashboard-apbd
 DASHBOARD_TITLE="Dashboard Realisasi Fisik"
 DASHBOARD_AGENCY="Diskominfo Kabupaten Kutai Barat"
-MICROSOFT_CLIENT_ID=
-MICROSOFT_CLIENT_SECRET=
-MICROSOFT_REDIRECT_URI=https://domain-anda.example/auth/microsoft/callback
-MICROSOFT_TENANT=consumers
-MICROSOFT_WORKBOOK_ITEM_ID=
-MICROSOFT_WORKSHEET_NAME=Pivot
 ```
 
 `DASHBOARD_EXCEL_EMBED_URL` harus berupa tautan embed **HTTPS baca-saja** dari OneDrive atau Microsoft 365 untuk sheet `Dashboard`. Aplikasi menambahkan parameter embed Microsoft untuk membuka Dashboard, menjaga interaktivitas slicer/pivot bila tersedia, dan menyembunyikan tab sheet, grid, header, serta tombol unduh sejauh didukung Excel Online.
 
 `DASHBOARD_EXCEL_SOURCE_URL` bersifat opsional. Bila diisi dengan URL OneDrive/Microsoft yang valid, tombol **Buka Excel Online** akan tampil. Jangan gunakan file `.xlsx` lokal pada iframe dan jangan memindahkan spreadsheet sumber ke `public`.
 
-Konfigurasi `MICROSOFT_*` dipakai server untuk mengambil nilai `Pivot!AC3` dan `Pivot!AI3` melalui Microsoft Graph dengan OAuth Authorization Code delegated. Aplikasi tidak mengirim client secret, item ID, access token, atau refresh token ke browser. Nilai dashboard dicache selama 60 detik.
-
-Untuk menghubungkan OneDrive Personal, daftarkan `MICROSOFT_REDIRECT_URI` sebagai Web redirect URI pada Microsoft Entra, gunakan tenant `consumers`, lalu buka `/auth/microsoft/redirect` menggunakan akun dengan email yang sama dengan `ADMIN_EMAIL`. Aplikasi meminta scope delegated `offline_access Files.ReadWrite openid profile email`; token tersimpan terenkripsi di database dan diperbarui otomatis saat hampir kedaluwarsa.
+Aplikasi tidak menggunakan Microsoft Graph, OAuth, atau token Microsoft. Dashboard hanya menampilkan iframe baca-saja dari URL embed yang dikonfigurasi.
 
 Setelah embed dipasang, file OneDrive harus selalu file yang sama. Operator memperbarui data melalui Excel Online pada file tersebut, bukan melalui website. Jangan mengunggah file baru untuk setiap perubahan, mengganti nama, memindahkan, atau menghapus file OneDrive. Jika file diganti atau dipindahkan sehingga URL berubah, developer harus memperbarui `.env`.
 
@@ -76,7 +68,7 @@ php artisan serve
 
 ## Deploy produksi
 
-Di server, gunakan `.env` terpisah berbasis `.env.example`, isi seluruh kredensial dan domain sebenarnya, lalu pastikan `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL` dan `MICROSOFT_REDIRECT_URI` memakai HTTPS, serta `SESSION_SECURE_COOKIE=true`. Jangan menyalin `.env` lokal atau menjadikannya bagian dari artefak rilis.
+Di server, gunakan `.env` terpisah berbasis `.env.example`, isi seluruh kredensial dan domain sebenarnya, lalu pastikan `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL=https://dashboarddiskominfo.kutaibaratkab.go.id`, serta `SESSION_SECURE_COOKIE=true`. Jangan menyalin `.env` lokal atau menjadikannya bagian dari artefak rilis.
 
 Setelah kode dan environment variables tersedia, jalankan:
 

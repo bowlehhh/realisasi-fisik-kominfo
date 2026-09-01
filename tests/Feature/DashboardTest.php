@@ -51,12 +51,11 @@ class DashboardTest extends TestCase
             ->assertSee('min-h-[760px]', false)
             ->assertSee('class="relative z-10 block', false)
             ->assertSee('class="excel-dashboard-stage', false)
-            ->assertSee('id="realisasi-fisik-value"', false)
-            ->assertSee('id="realisasi-anggaran-value"', false)
-            ->assertSee('>—</output>', false)
             ->assertSee('<iframe', false)
             ->assertSee('Operator Dashboard')
             ->assertSee('Keluar')
+            ->assertDontSee('Hubungkan Microsoft')
+            ->assertDontSee('dashboard/excel-values')
             ->assertDontSee('type="file"', false);
 
         $contentSecurityPolicy = (string) $response->headers->get('Content-Security-Policy');

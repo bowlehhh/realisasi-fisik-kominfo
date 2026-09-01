@@ -18,10 +18,6 @@
                         <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800 ring-1 ring-emerald-200"><span class="h-2 w-2 rounded-full bg-emerald-500"></span>Baca Saja</span>
                         @if ($embedUrl)
                             <button type="button" id="refresh-dashboard" class="inline-flex items-center justify-center rounded-xl border border-sky-200 bg-white px-4 py-2.5 text-sm font-semibold text-sky-800 shadow-sm transition hover:border-sky-300 hover:bg-sky-50 focus:outline-none focus:ring-4 focus:ring-sky-100">Muat Ulang Data</button>
-                            <span id="excel-values-loading" class="hidden text-xs font-medium text-slate-500" role="status" aria-live="polite">Memuat nilai…</span>
-                        @endif
-                        @if ($showMicrosoftConnectButton)
-                            <a href="{{ route('microsoft.redirect') }}" class="inline-flex items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-800 shadow-sm transition hover:bg-emerald-100 focus:outline-none focus:ring-4 focus:ring-emerald-100">Hubungkan Microsoft</a>
                         @endif
                         <a href="{{ $apbdUrl }}" class="inline-flex items-center justify-center rounded-xl bg-sky-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-800 focus:outline-none focus:ring-4 focus:ring-sky-200">Buka Dashboard APBD</a>
                         <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
@@ -54,8 +50,6 @@
                         <div class="overflow-x-auto lg:overflow-x-visible">
                             <div class="excel-dashboard-stage relative min-w-[760px] lg:min-w-0">
                                 <iframe id="excel-dashboard" class="relative z-10 block h-[calc(100vh-10.625rem)] min-h-[760px] w-full border-0" src="{{ $embedUrl }}" title="Dashboard Realisasi Fisik Diskominfo" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" scrolling="no" allowfullscreen onload="document.getElementById('excel-loading')?.classList.add('hidden')"><p>Browser Anda tidak mendukung iframe. Gunakan tombol “Buka Excel Online” bila tersedia.</p></iframe>
-                                <output id="realisasi-fisik-value" class="pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-1/2 text-sm font-bold text-black drop-shadow-sm sm:text-base" style="left: 36.8%; top: 81.8%;" aria-label="Nilai realisasi fisik">—</output>
-                                <output id="realisasi-anggaran-value" class="pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-1/2 text-sm font-bold text-black drop-shadow-sm sm:text-base" style="left: 81.2%; top: 81.8%;" aria-label="Nilai realisasi anggaran">—</output>
                             </div>
                         </div>
                     </div>
@@ -74,50 +68,9 @@
 
     @if ($embedUrl)
         <script>
-            const valuesEndpoint = @json(route('dashboard.excel-values'));
             const iframe = document.getElementById('excel-dashboard');
             const loading = document.getElementById('excel-loading');
             const refreshButton = document.getElementById('refresh-dashboard');
-            const valuesLoading = document.getElementById('excel-values-loading');
-            const fisikValue = document.getElementById('realisasi-fisik-value');
-            const anggaranValue = document.getElementById('realisasi-anggaran-value');
-
-            const setValuesLoading = (isLoading) => {
-                valuesLoading?.classList.toggle('hidden', !isLoading);
-                refreshButton?.toggleAttribute('disabled', isLoading);
-                refreshButton?.classList.toggle('cursor-wait', isLoading);
-                refreshButton?.classList.toggle('opacity-60', isLoading);
-            };
-
-            const loadExcelValues = async () => {
-                setValuesLoading(true);
-
-                try {
-                    const response = await fetch(valuesEndpoint, {
-                        headers: {
-                            Accept: 'application/json',
-                        },
-                    });
-
-                    if (!response.ok) {
-                        return;
-                    }
-
-                    const values = await response.json();
-
-                    if (typeof values.realisasi_fisik === 'string') {
-                        fisikValue.textContent = values.realisasi_fisik;
-                    }
-
-                    if (typeof values.realisasi_anggaran === 'string') {
-                        anggaranValue.textContent = values.realisasi_anggaran;
-                    }
-                } catch {
-                    // The default em dash remains visible until Graph is available again.
-                } finally {
-                    setValuesLoading(false);
-                }
-            };
 
             refreshButton?.addEventListener('click', () => {
                 if (!iframe) {
@@ -126,11 +79,7 @@
 
                 loading?.classList.remove('hidden');
                 iframe.src = iframe.getAttribute('src') || iframe.src;
-                loadExcelValues();
             });
-
-            loadExcelValues();
-            window.setInterval(loadExcelValues, 60_000);
         </script>
     @endif
 @endsection

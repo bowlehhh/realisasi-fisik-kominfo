@@ -2,25 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\MicrosoftGraphExcelService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Response;
 
 class DashboardController extends Controller
 {
-    public function index(MicrosoftGraphExcelService $microsoft): View
+    public function index(): View
     {
         $embedUrl = config('dashboard.excel_embed_url');
         $sourceUrl = config('dashboard.excel_source_url');
-        $microsoftIsConfigured = $microsoft->isConfigured();
 
         return view('dashboard.index', [
             'agency' => config('dashboard.agency'),
             'apbdUrl' => $this->apbdUrl(),
             'embedUrl' => $this->isTrustedMicrosoftUrl($embedUrl) ? $embedUrl : null,
             'excelSourceUrl' => $this->isTrustedMicrosoftUrl($sourceUrl) ? $sourceUrl : null,
-            'showMicrosoftConnectButton' => $microsoftIsConfigured
-                && ! $microsoft->hasAuthorization(),
             'title' => config('dashboard.title'),
             'user' => auth()->user(),
         ]);

@@ -35,14 +35,4 @@ return [
         ],
     ],
 
-    'microsoft' => [
-        'client_id' => env('MICROSOFT_CLIENT_ID'),
-        'client_secret' => env('MICROSOFT_CLIENT_SECRET'),
-        'redirect_uri' => env('MICROSOFT_REDIRECT_URI', 'http://127.0.0.1:8000/auth/microsoft/callback'),
-        'tenant' => env('MICROSOFT_TENANT', 'consumers'),
-        'workbook_item_id' => env('MICROSOFT_WORKBOOK_ITEM_ID'),
-        'worksheet_name' => env('MICROSOFT_WORKSHEET_NAME', 'Pivot'),
-        'scopes' => ['offline_access', 'Files.ReadWrite', 'openid', 'profile', 'email'],
-    ],
-
 ];
