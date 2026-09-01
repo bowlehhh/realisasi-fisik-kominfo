@@ -24,7 +24,7 @@ class DashboardController extends Controller
 
     public function apbd(): Response
     {
-        $dashboardPath = storage_path('app/private/dashboard-apbd/dashboard-apbd.html');
+        $dashboardPath = storage_path('app/private/dashboard-apbd/index.html');
 
         if (! is_file($dashboardPath)) {
             return response()->view('dashboard.apbd-unavailable', [

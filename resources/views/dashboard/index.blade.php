@@ -47,9 +47,13 @@
                 @if ($embedUrl)
                     <div class="relative w-full min-w-0 bg-slate-100">
                         <div id="excel-loading" class="absolute inset-0 z-30 grid place-items-center bg-slate-100 text-center text-sm text-slate-600" role="status" aria-live="polite"><div><div class="mx-auto mb-3 h-9 w-9 animate-spin rounded-full border-4 border-sky-100 border-t-sky-700"></div>Memuat Dashboard Excel Online…</div></div>
-                        <div class="overflow-x-auto lg:overflow-x-visible">
-                            <div class="excel-dashboard-stage relative min-w-[760px] lg:min-w-0">
-                                <iframe id="excel-dashboard" class="relative z-10 block h-[calc(100vh-10.625rem)] min-h-[760px] w-full border-0" src="{{ $embedUrl }}" title="Dashboard Realisasi Fisik Diskominfo" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" scrolling="no" allowfullscreen onload="document.getElementById('excel-loading')?.classList.add('hidden')"><p>Browser Anda tidak mendukung iframe. Gunakan tombol “Buka Excel Online” bila tersedia.</p></iframe>
+                        <div class="border-b border-slate-200 bg-white px-4 py-3 sm:hidden">
+                            <a href="{{ $embedUrl }}" target="_blank" rel="noopener noreferrer" class="inline-flex w-full items-center justify-center rounded-xl border border-sky-200 bg-sky-50 px-4 py-2.5 text-sm font-semibold text-sky-800 transition hover:border-sky-300 hover:bg-sky-100 focus:outline-none focus:ring-4 focus:ring-sky-100">Buka Excel layar penuh</a>
+                            <p class="mt-2 text-center text-xs leading-5 text-slate-600">Geser dashboard ke samping untuk melihat seluruh kolom.</p>
+                        </div>
+                        <div class="overflow-x-auto overscroll-x-contain lg:overflow-x-visible">
+                            <div class="excel-dashboard-stage relative min-w-[640px] sm:min-w-[760px] lg:min-w-0">
+                                <iframe id="excel-dashboard" class="relative z-10 block h-[70svh] min-h-[30rem] w-full border-0 sm:h-[calc(100vh-10.625rem)] sm:min-h-[760px]" src="{{ $embedUrl }}" title="Dashboard Realisasi Fisik Diskominfo" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" scrolling="no" allowfullscreen onload="document.getElementById('excel-loading')?.classList.add('hidden')"><p>Browser Anda tidak mendukung iframe. Gunakan tombol “Buka Excel Online” bila tersedia.</p></iframe>
                             </div>
                         </div>
                     </div>
