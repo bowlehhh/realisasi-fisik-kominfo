@@ -19,7 +19,6 @@
 /public/storage
 /storage/*.key
 /storage/pail
-/storage/app/private/
 /storage/framework/cache/
 /storage/framework/sessions/
 /storage/framework/views/
