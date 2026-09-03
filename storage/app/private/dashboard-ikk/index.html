@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard IKK Diskominfo Kutai Barat 2025–2029</title>
+  <style>
+    :root{
+      --bg:#07111f;
+      --bg-2:#0a1628;
+      --panel:#0d1d33;
+      --panel-2:#102641;
+      --line:#1e3b5f;
+      --text:#eef6ff;
+      --muted:#91a8c0;
+      --cyan:#32d6ff;
+      --blue:#4d8dff;
+      --green:#36d399;
+      --yellow:#f4c95d;
+      --red:#ff6b7a;
+      --purple:#a982ff;
+      --white:#ffffff;
+      --shadow:0 16px 45px rgba(0,0,0,.28);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(50,214,255,.08), transparent 26%),
+        radial-gradient(circle at 85% 18%, rgba(77,141,255,.10), transparent 30%),
+        var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    .app{
+      display:grid;
+      grid-template-columns:260px 1fr;
+      min-height:100vh;
+    }
+
+    .sidebar{
+      padding:28px 20px;
+      border-right:1px solid rgba(255,255,255,.07);
+      background:rgba(4,13,24,.82);
+      backdrop-filter: blur(12px);
+      position:sticky;
+      top:0;
+      height:100vh;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:34px;
+    }
+
+    .brand-mark{
+      width:48px;
+      height:48px;
+      display:grid;
+      place-items:center;
+      border-radius:14px;
+      background:linear-gradient(145deg,var(--cyan),var(--blue));
+      color:#02101f;
+      font-weight:900;
+      box-shadow:0 10px 30px rgba(50,214,255,.18);
+    }
+
+    .brand small{
+      display:block;
+      color:var(--muted);
+      margin-top:3px;
+      font-size:11px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .nav-title{
+      color:#607a96;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin:24px 10px 10px;
+    }
+
+    .nav a{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:#b9cadb;
+      text-decoration:none;
+      padding:11px 12px;
+      border-radius:11px;
+      margin:5px 0;
+      transition:.2s ease;
+      font-size:14px;
+    }
+
+    .nav a:hover,.nav a.active{
+      color:#fff;
+      background:linear-gradient(90deg,rgba(50,214,255,.13),rgba(77,141,255,.08));
+      border:1px solid rgba(50,214,255,.13);
+    }
+
+    .sidebar-note{
+      margin-top:26px;
+      padding:14px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;
+      background:rgba(255,255,255,.025);
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.55;
+    }
+
+    main{
+      padding:28px 30px 50px;
+      overflow:hidden;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      margin-bottom:24px;
+    }
+
+    .title h1{
+      margin:0;
+      font-size:28px;
+      letter-spacing:-.03em;
+    }
+    .title p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid rgba(50,214,255,.24);
+      background:rgba(50,214,255,.07);
+      color:#bdf2ff;
+      font-size:12px;
+      white-space:nowrap;
+    }
+
+    .grid{
+      display:grid;
+      gap:16px;
+    }
+
+    .kpis{
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      margin-bottom:18px;
+    }
+
+    .card{
+      background:linear-gradient(180deg,rgba(16,38,65,.92),rgba(11,27,48,.92));
+      border:1px solid rgba(255,255,255,.07);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+      overflow:hidden;
+    }
+
+    .kpi{
+      padding:20px;
+      position:relative;
+      min-height:140px;
+    }
+
+    .kpi .label{
+      color:var(--muted);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.10em;
+    }
+
+    .kpi .value{
+      font-size:34px;
+      font-weight:800;
+      margin-top:10px;
+      letter-spacing:-.04em;
+    }
+
+    .kpi .sub{
+      color:#b5c9dc;
+      font-size:12px;
+      margin-top:7px;
+      line-height:1.45;
+    }
+
+    .kpi .accent{
+      position:absolute;
+      right:16px;
+      top:16px;
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      font-size:18px;
+      background:rgba(50,214,255,.09);
+      border:1px solid rgba(50,214,255,.14);
+    }
+
+    .section-grid{
+      grid-template-columns:1.2fr .8fr;
+      margin-bottom:18px;
+    }
+
+    .section-grid.equal{
+      grid-template-columns:1fr 1fr;
+    }
+
+    .panel{
+      padding:20px;
+    }
+
+    .panel-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:16px;
+    }
+
+    .panel-head h3{
+      margin:0;
+      font-size:16px;
+    }
+
+    .panel-head p{
+      margin:5px 0 0;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .select{
+      appearance:none;
+      background:#0a182b;
+      color:#dbeaff;
+      border:1px solid #234668;
+      border-radius:10px;
+      padding:9px 34px 9px 11px;
+      outline:none;
+      font-size:12px;
+    }
+
+    #trendChart{
+      width:100%;
+      height:270px;
+      display:block;
+    }
+
+    .insight-list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .insight{
+      padding:13px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(255,255,255,.025);
+    }
+
+    .insight-top{
+      display:flex;
+      gap:10px;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:7px;
+    }
+
+    .insight strong{
+      font-size:13px;
+    }
+
+    .pill{
+      font-size:10px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      padding:5px 8px;
+      border-radius:999px;
+    }
+    .pill.red{color:#ffd7dc;background:rgba(255,107,122,.12);border:1px solid rgba(255,107,122,.25)}
+    .pill.yellow{color:#fff0bf;background:rgba(244,201,93,.12);border:1px solid rgba(244,201,93,.25)}
+    .pill.green{color:#c7ffe9;background:rgba(54,211,153,.12);border:1px solid rgba(54,211,153,.25)}
+
+    .insight p{
+      margin:0;
+      color:#a9bfd4;
+      font-size:12px;
+      line-height:1.55;
+    }
+
+    .bars{
+      display:flex;
+      flex-direction:column;
+      gap:13px;
+      margin-top:6px;
+    }
+
+    .bar-row{
+      display:grid;
+      grid-template-columns:170px 1fr 58px;
+      align-items:center;
+      gap:12px;
+      font-size:12px;
+    }
+
+    .bar-label{
+      color:#c7d8e8;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .bar-track{
+      height:10px;
+      border-radius:999px;
+      background:#091629;
+      border:1px solid rgba(255,255,255,.06);
+      overflow:hidden;
+    }
+
+    .bar-fill{
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--blue),var(--cyan));
+      width:0;
+      transition:width .9s ease;
+    }
+
+    .bar-val{
+      text-align:right;
+      font-weight:700;
+      color:#e9f7ff;
+    }
+
+    .matrix{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+
+    .matrix-card{
+      min-height:132px;
+      padding:15px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(255,255,255,.025);
+    }
+
+    .matrix-card .num{
+      font-size:26px;
+      font-weight:800;
+      margin:8px 0 5px;
+    }
+    .matrix-card .name{
+      font-size:12px;
+      color:#d7e4f1;
+      font-weight:700;
+      line-height:1.35;
+    }
+    .matrix-card .desc{
+      margin-top:7px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.45;
+    }
+
+    .table-wrap{
+      overflow:auto;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:950px;
+      font-size:12px;
+    }
+
+    th{
+      position:sticky;
+      top:0;
+      background:#0b1c31;
+      color:#8fa9c3;
+      text-align:left;
+      padding:12px;
+      font-weight:700;
+      letter-spacing:.04em;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    td{
+      padding:12px;
+      border-bottom:1px solid rgba(255,255,255,.05);
+      color:#d8e5f1;
+      vertical-align:top;
+    }
+
+    tbody tr:hover{
+      background:rgba(50,214,255,.035);
+    }
+
+    .tag{
+      display:inline-block;
+      padding:5px 8px;
+      border-radius:999px;
+      font-size:10px;
+      font-weight:800;
+    }
+    .tag.kominfo{background:rgba(50,214,255,.10);color:#bcefff}
+    .tag.statistik{background:rgba(169,130,255,.12);color:#ddd0ff}
+    .tag.persandian{background:rgba(255,107,122,.11);color:#ffd2d7}
+
+    .exec-questions{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+
+    .question{
+      padding:16px;
+      border-radius:14px;
+      background:linear-gradient(180deg,rgba(77,141,255,.08),rgba(255,255,255,.02));
+      border:1px solid rgba(77,141,255,.16);
+      color:#dce9f7;
+      font-size:12px;
+      line-height:1.55;
+    }
+
+    .question span{
+      display:block;
+      color:var(--cyan);
+      font-weight:900;
+      font-size:18px;
+      margin-bottom:7px;
+    }
+
+    footer{
+      margin-top:18px;
+      color:#6f89a4;
+      font-size:11px;
+      text-align:right;
+    }
+
+    @media(max-width:1100px){
+      .app{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .kpis{grid-template-columns:repeat(2,1fr)}
+      .section-grid,.section-grid.equal{grid-template-columns:1fr}
+    }
+
+    @media(max-width:700px){
+      main{padding:20px 14px 36px}
+      .topbar{align-items:flex-start;flex-direction:column}
+      .kpis{grid-template-columns:1fr}
+      .matrix,.exec-questions{grid-template-columns:1fr}
+      .bar-row{grid-template-columns:120px 1fr 50px}
+      .title h1{font-size:23px}
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">DK</div>
+      <div>
+        <strong>DISKOMINFO KUBAR</strong>
+        <small>Executive IKK Dashboard</small>
+      </div>
+    </div>
+
+    <div class="nav-title">Navigasi</div>
+    <nav class="nav">
+      <a class="active" href="#overview">◈ Ringkasan Eksekutif</a>
+      <a href="#trend">⌁ Tren Target</a>
+      <a href="#prioritas">⚑ Prioritas Kadis</a>
+      <a href="#urusan">▦ Urusan Strategis</a>
+      <a href="#detail">≡ Detail 9 IKK</a>
+    </nav>
+
+    <div class="sidebar-note">
+      <strong style="color:#d8efff">Cara membaca dashboard</strong><br/>
+      Angka di dashboard ini adalah <b>target IKK</b>, bukan realisasi kinerja.
+      Label “tingkat tantangan” merupakan analisis manajerial untuk membantu fokus pimpinan.
+    </div>
+  </aside>
+
+  <main>
+    <section id="overview" class="topbar">
+      <div class="title">
+        <h1>Dashboard Insight IKK 2025–2029</h1>
+        <p>Perspektif Kepala Dinas • Dinas Komunikasi dan Informatika Kabupaten Kutai Barat</p>
+      </div>
+      <div class="badge">● Periode Renstra 2025–2029</div>
+    </section>
+
+    <section class="grid kpis">
+      <div class="card kpi">
+        <div class="accent">◎</div>
+        <div class="label">Total indikator</div>
+        <div class="value">9</div>
+        <div class="sub">Mencakup Kominfo, Statistik, dan Persandian.</div>
+      </div>
+      <div class="card kpi">
+        <div class="accent">↗</div>
+        <div class="label">Target integrasi 2029</div>
+        <div class="value">100%</div>
+        <div class="sub">Dari 6,38% pada 2025 — agenda transformasi terbesar.</div>
+      </div>
+      <div class="card kpi">
+        <div class="accent">⚠</div>
+        <div class="label">Kesiapan keamanan 2025</div>
+        <div class="value">27,18%</div>
+        <div class="sub">Area risiko strategis yang harus naik ke 60,59% pada 2029.</div>
+      </div>
+      <div class="card kpi">
+        <div class="accent">⌁</div>
+        <div class="label">Audit entitas 2025</div>
+        <div class="value">1%</div>
+        <div class="sub">Target 85% pada 2029 — lompatan paling agresif.</div>
+      </div>
+    </section>
+
+    <section id="trend" class="grid section-grid">
+      <div class="card panel">
+        <div class="panel-head">
+          <div>
+            <h3>Tren Target IKK</h3>
+            <p>Pilih indikator untuk melihat jalur target 2025–2029.</p>
+          </div>
+          <select id="indicatorSelect" class="select"></select>
+        </div>
+        <svg id="trendChart" viewBox="0 0 720 270" preserveAspectRatio="none"></svg>
+      </div>
+
+      <div id="prioritas" class="card panel">
+        <div class="panel-head">
+          <div>
+            <h3>Prioritas Kadis</h3>
+            <p>Fokus strategis berdasarkan tingkat tantangan target.</p>
+          </div>
+        </div>
+        <div class="insight-list">
+          <div class="insight">
+            <div class="insight-top">
+              <strong>Integrasi layanan pemerintah</strong>
+              <span class="pill red">Sangat Tinggi</span>
+            </div>
+            <p>6,38% → 100%. Butuh arsitektur aplikasi, integrasi data, eliminasi duplikasi, dan governance lintas OPD.</p>
+          </div>
+          <div class="insight">
+            <div class="insight-top">
+              <strong>Audit aset / entitas informasi</strong>
+              <span class="pill red">Sangat Tinggi</span>
+            </div>
+            <p>1% → 85%. Perlu roadmap audit bertahap, definisi entitas yang jelas, serta kesiapan bukti dan tindak lanjut.</p>
+          </div>
+          <div class="insight">
+            <div class="insight-top">
+              <strong>Kesiapan pengamanan informasi</strong>
+              <span class="pill yellow">Tinggi</span>
+            </div>
+            <p>27,18% → 60,59%. Digitalisasi harus berjalan paralel dengan penguatan tata kelola, risiko, aset, dan teknologi.</p>
+          </div>
+          <div class="insight">
+            <div class="insight-top">
+              <strong>Penyebaran informasi publik</strong>
+              <span class="pill green">Stabil</span>
+            </div>
+            <p>Target 100% setiap tahun. Fokus pimpinan sebaiknya bergeser dari jumlah publikasi ke outcome: awareness masyarakat.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid section-grid equal">
+      <div class="card panel">
+        <div class="panel-head">
+          <div>
+            <h3>Target 2029 — Indikator Persentase</h3>
+            <p>Komparasi target akhir periode. IPS tidak ditampilkan karena satuannya poin.</p>
+          </div>
+        </div>
+        <div id="bars" class="bars"></div>
+      </div>
+
+      <div id="urusan" class="card panel">
+        <div class="panel-head">
+          <div>
+            <h3>3 Urusan Strategis</h3>
+            <p>Ringkasan fokus manajemen per urusan.</p>
+          </div>
+        </div>
+        <div class="matrix">
+          <div class="matrix-card">
+            <div class="tag kominfo">KOMINFO</div>
+            <div class="num">4</div>
+            <div class="name">IKK Komunikasi & Informatika</div>
+            <div class="desc">Fokus: publikasi, integrasi layanan, konektivitas OPD, awareness masyarakat.</div>
+          </div>
+          <div class="matrix-card">
+            <div class="tag statistik">STATISTIK</div>
+            <div class="num">3</div>
+            <div class="name">IKK Statistik</div>
+            <div class="desc">Fokus: IPS dan pemanfaatan data untuk perencanaan serta evaluasi pembangunan.</div>
+          </div>
+          <div class="matrix-card">
+            <div class="tag persandian">PERSANDIAN</div>
+            <div class="num">2</div>
+            <div class="name">IKK Persandian</div>
+            <div class="desc">Fokus: Indeks KAMI dan peningkatan cakupan audit keamanan informasi.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card panel">
+      <div class="panel-head">
+        <div>
+          <h3>3 Pertanyaan Eksekutif yang Harus Dijawab</h3>
+          <p>Digunakan sebagai agenda rapat pimpinan dan pengendalian lintas bidang.</p>
+        </div>
+      </div>
+      <div class="exec-questions">
+        <div class="question">
+          <span>01</span>
+          Dari seluruh aplikasi Pemkab, mana yang akan <b>diintegrasikan, dipertahankan, dikonsolidasikan, atau dihentikan</b> sampai 2028?
+        </div>
+        <div class="question">
+          <span>02</span>
+          Apa gap konkret yang membuat kesiapan keamanan masih rendah, dan intervensi apa yang paling efektif untuk menaikkan <b>Indeks KAMI</b>?
+        </div>
+        <div class="question">
+          <span>03</span>
+          OPD mana yang belum menggunakan data statistik dalam <b>perencanaan dan evaluasi</b>, dan apa tindakan korektifnya?
+        </div>
+      </div>
+    </section>
+
+    <section id="detail" class="card panel" style="margin-top:18px">
+      <div class="panel-head">
+        <div>
+          <h3>Detail Target 9 IKK</h3>
+          <p>Seluruh angka berikut adalah target dokumen 2025–2029.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Urusan</th>
+              <th>Indikator</th>
+              <th>2025</th>
+              <th>2026</th>
+              <th>2027</th>
+              <th>2028</th>
+              <th>2029</th>
+            </tr>
+          </thead>
+          <tbody id="ikkTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      Sumber: Dokumen Indikator Kinerja Kunci (IKK) Dinas Kominfo Kabupaten Kutai Barat 2025–2029.
+    </footer>
+  </main>
+</div>
+
+<script>
+const data = [
+  {no:1, urusan:"Kominfo", unit:"%", name:"Persentase Penyebaran Informasi Publik", values:[100,100,100,100,100]},
+  {no:2, urusan:"Kominfo", unit:"%", name:"Persentase Aplikasi Layanan Pemerintah dan Publik yang online dan terintegrasi", values:[6.38,27.66,70.21,100,100]},
+  {no:3, urusan:"Kominfo", unit:"%", name:"Persentase OPD terhubung akses internet yang disediakan Dinas Kominfo", values:[85,100,100,100,100]},
+  {no:4, urusan:"Kominfo", unit:"%", name:"Persentase masyarakat sasaran yang mengetahui kebijakan dan program prioritas", values:[50,60,70,80,90]},
+  {no:5, urusan:"Statistik", unit:"poin", name:"Indeks Pembangunan Statistik (IPS)", values:[1.65,1.80,1.80,2.60,2.60]},
+  {no:6, urusan:"Statistik", unit:"%", name:"Persentase OPD menggunakan data statistik dalam perencanaan pembangunan", values:[50,55,60,65,70]},
+  {no:7, urusan:"Statistik", unit:"%", name:"Persentase OPD menggunakan data statistik dalam evaluasi pembangunan", values:[50,55,60,65,70]},
+  {no:8, urusan:"Persandian", unit:"%", name:"Tingkat kesiapan pengamanan informasi Pemerintah Daerah", values:[27.18,31.99,37.12,48.36,60.59]},
+  {no:9, urusan:"Persandian", unit:"%", name:"Persentase sistem elektronik / aset informasi yang telah diaudit dengan risiko kategori rendah", values:[1,20,40,65,85]}
+];
+
+const years=[2025,2026,2027,2028,2029];
+
+function fmt(v, unit){
+  return unit==="%" ? `${String(v).replace(".",",")}%` : `${String(v).replace(".",",")} poin`;
+}
+
+function urusanClass(u){
+  if(u==="Kominfo") return "kominfo";
+  if(u==="Statistik") return "statistik";
+  return "persandian";
+}
+
+function populate(){
+  const select=document.getElementById("indicatorSelect");
+  data.forEach(d=>{
+    const opt=document.createElement("option");
+    opt.value=d.no;
+    opt.textContent=`${d.no}. ${d.name}`;
+    if(d.no===2) opt.selected=true;
+    select.appendChild(opt);
+  });
+  select.addEventListener("change",()=>drawTrend(Number(select.value)));
+
+  const table=document.getElementById("ikkTable");
+  data.forEach(d=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td>${d.no}</td>
+      <td><span class="tag ${urusanClass(d.urusan)}">${d.urusan}</span></td>
+      <td style="max-width:360px">${d.name}</td>
+      ${d.values.map(v=>`<td>${fmt(v,d.unit)}</td>`).join("")}
+    `;
+    table.appendChild(tr);
+  });
+
+  const bars=document.getElementById("bars");
+  data.filter(d=>d.unit==="%").forEach(d=>{
+    const target=d.values[4];
+    const row=document.createElement("div");
+    row.className="bar-row";
+    row.innerHTML=`
+      <div class="bar-label" title="${d.name}">${d.no}. ${d.name}</div>
+      <div class="bar-track"><div class="bar-fill" data-w="${target}"></div></div>
+      <div class="bar-val">${fmt(target,d.unit)}</div>
+    `;
+    bars.appendChild(row);
+  });
+
+  setTimeout(()=>{
+    document.querySelectorAll(".bar-fill").forEach(el=>{
+      el.style.width=Math.min(Number(el.dataset.w),100)+"%";
+    });
+  },150);
+
+  drawTrend(2);
+}
+
+function drawTrend(no){
+  const d=data.find(x=>x.no===no);
+  const svg=document.getElementById("trendChart");
+  const W=720,H=270;
+  const pad={l:58,r:26,t:22,b:45};
+  const plotW=W-pad.l-pad.r, plotH=H-pad.t-pad.b;
+
+  const maxVal=d.unit==="%" ? 100 : Math.max(...d.values)*1.15;
+  const minVal=0;
+
+  const x=i=>pad.l+(plotW/(years.length-1))*i;
+  const y=v=>pad.t+plotH-((v-minVal)/(maxVal-minVal))*plotH;
+
+  let html=`<defs>
+    <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#32d6ff" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#32d6ff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>`;
+
+  for(let i=0;i<=4;i++){
+    const gv=minVal+(maxVal-minVal)*(i/4);
+    const gy=y(gv);
+    html+=`<line x1="${pad.l}" y1="${gy}" x2="${W-pad.r}" y2="${gy}" stroke="rgba(255,255,255,.08)" stroke-width="1"/>`;
+    const label=d.unit==="%"?`${Math.round(gv)}%`:gv.toFixed(1);
+    html+=`<text x="${pad.l-12}" y="${gy+4}" text-anchor="end" fill="#718aa4" font-size="11">${label}</text>`;
+  }
+
+  years.forEach((yr,i)=>{
+    html+=`<text x="${x(i)}" y="${H-17}" text-anchor="middle" fill="#7f98b2" font-size="11">${yr}</text>`;
+  });
+
+  const pts=d.values.map((v,i)=>`${x(i)},${y(v)}`).join(" ");
+  const areaPts=`${x(0)},${pad.t+plotH} ${pts} ${x(years.length-1)},${pad.t+plotH}`;
+  html+=`<polygon points="${areaPts}" fill="url(#area)"/>`;
+  html+=`<polyline points="${pts}" fill="none" stroke="#32d6ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>`;
+
+  d.values.forEach((v,i)=>{
+    html+=`<circle cx="${x(i)}" cy="${y(v)}" r="5" fill="#07111f" stroke="#32d6ff" stroke-width="3"/>`;
+    const yy=Math.max(y(v)-12,14);
+    html+=`<text x="${x(i)}" y="${yy}" text-anchor="middle" fill="#eaf8ff" font-size="11" font-weight="700">${fmt(v,d.unit)}</text>`;
+  });
+
+  svg.innerHTML=html;
+}
+
+populate();
+</script>
+</body>
+</html>

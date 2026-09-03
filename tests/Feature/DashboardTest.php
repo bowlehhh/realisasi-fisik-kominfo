@@ -20,7 +20,9 @@ class DashboardTest extends TestCase
 
         $this->get('/')
             ->assertSee('Dashboard Realisasi Fisik sedang disiapkan.')
-            ->assertSee('Buka Dashboard APBD')
+            ->assertSee('Detail Realisasi Fisik dan Keuangan')
+            ->assertSee('Dashboard IKK')
+            ->assertSee('Dashboard IKU')
             ->assertDontSee('<iframe', false)
             ->assertDontSee('DASHBOARD_EXCEL_EMBED_URL')
             ->assertDontSee('Administrator perlu');
@@ -42,7 +44,6 @@ class DashboardTest extends TestCase
             ->assertOk()
             ->assertSee('https://1drv.ms/x/c/example?wdAllowInteractivity=True&amp;wdHideGridlines=True&amp;wdHideHeaders=True&amp;wdDownloadButton=False', false)
             ->assertSee('Buka Excel Online')
-            ->assertSee('Muat Ulang Data')
             ->assertSee('Data bersumber dari file Excel Online yang sama.')
             ->assertSee('wdHideGridlines=True', false)
             ->assertSee('id="excel-dashboard-panel"', false)
@@ -54,6 +55,8 @@ class DashboardTest extends TestCase
             ->assertSee('<iframe', false)
             ->assertSee('Operator Dashboard')
             ->assertSee('Keluar')
+            ->assertDontSee('Baca Saja')
+            ->assertDontSee('Muat Ulang Data')
             ->assertDontSee('Hubungkan Microsoft')
             ->assertDontSee('dashboard/excel-values')
             ->assertDontSee('type="file"', false);
@@ -79,7 +82,27 @@ class DashboardTest extends TestCase
         $this->get('/dashboard-apbd')
             ->assertOk()
             ->assertSee('Dashboard Realisasi Fisik & Keuangan', false)
-            ->assertSee('Kembali ke Dashboard Realisasi Fisik');
+            ->assertSee('Kembali ke Dashboard Realisasi Fisik')
+            ->assertSee('Kembali ke Dashboard Utama')
+            ->assertSee('id="dashboard-home-link"', false);
+    }
+
+    public function test_iku_dashboard_route_is_available(): void
+    {
+        $this->get('/dashboard-iku')
+            ->assertOk()
+            ->assertSee('Executive Dashboard IKU 2025–2029', false)
+            ->assertSee('Kembali ke Dashboard Utama')
+            ->assertSee('id="dashboard-home-link"', false);
+    }
+
+    public function test_ikk_dashboard_route_is_available(): void
+    {
+        $this->get('/dashboard-ikk')
+            ->assertOk()
+            ->assertSee('Dashboard IKK Diskominfo Kutai Barat 2025–2029', false)
+            ->assertSee('Kembali ke Dashboard Utama')
+            ->assertSee('id="dashboard-home-link"', false);
     }
 
     public function test_excel_source_file_is_not_publicly_accessible(): void

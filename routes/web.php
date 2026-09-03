@@ -16,4 +16,6 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 Route::middleware('auth')->controller(DashboardController::class)->group(function (): void {
     Route::get('/', 'index')->name('dashboard.index');
     Route::get('/dashboard-apbd', 'apbd')->name('dashboard.apbd');
+    Route::get('/dashboard-iku', 'iku')->name('dashboard.iku');
+    Route::get('/dashboard-ikk', 'ikk')->name('dashboard.ikk');
 });

@@ -3,30 +3,35 @@
 @section('content')
     <main class="min-h-screen bg-[radial-gradient(circle_at_top_left,_#dbeafe,_transparent_36%),linear-gradient(180deg,_#f8fafc,_#e2e8f0)] py-3 sm:py-4">
         <header class="mx-auto mb-3 w-[calc(100vw-24px)] max-w-none sm:w-[calc(100vw-32px)] lg:w-[calc(100vw-48px)]">
-            <div class="rounded-3xl border border-sky-100 bg-white/95 px-5 py-5 shadow-sm sm:px-6 sm:py-6">
-                <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div class="rounded-3xl border border-sky-100 bg-white/95 px-5 py-4 shadow-sm sm:px-6 sm:py-5">
+                <div class="grid gap-4 lg:grid-cols-[auto_20rem_1fr] lg:items-start">
                     <div class="flex items-center gap-4">
                         <img src="{{ asset('images/logo-kominfo-circle.png') }}" alt="Logo Diskominfo" class="h-15 w-15 shrink-0 drop-shadow-sm sm:h-16 sm:w-16">
                         <div>
                             <p class="mb-1 text-sm font-semibold tracking-[0.2em] text-sky-700 uppercase">Pemerintah Kabupaten Kutai Barat</p>
-                            <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{{ $title }}</h1>
-                            <p class="mt-1.5 text-base text-slate-600">{{ $agency }}</p>
+                            <h1 class="text-2xl leading-tight font-bold tracking-tight text-slate-900 sm:text-3xl">{{ $title }}</h1>
+                            <p class="mt-1 text-base text-slate-600">{{ $agency }}</p>
                         </div>
                     </div>
 
-                    <div class="flex flex-wrap items-center gap-3">
-                        <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800 ring-1 ring-emerald-200"><span class="h-2 w-2 rounded-full bg-emerald-500"></span>Baca Saja</span>
-                        @if ($embedUrl)
-                            <button type="button" id="refresh-dashboard" class="inline-flex items-center justify-center rounded-xl border border-sky-200 bg-white px-4 py-2.5 text-sm font-semibold text-sky-800 shadow-sm transition hover:border-sky-300 hover:bg-sky-50 focus:outline-none focus:ring-4 focus:ring-sky-100">Muat Ulang Data</button>
-                        @endif
-                        <a href="{{ $apbdUrl }}" class="inline-flex items-center justify-center rounded-xl bg-sky-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-800 focus:outline-none focus:ring-4 focus:ring-sky-200">Buka Dashboard APBD</a>
-                        <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
-                            <span class="max-w-36 truncate font-medium" title="{{ $user?->name }}">{{ $user?->name }}</span>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="font-semibold text-sky-800 transition hover:text-sky-950 focus:outline-none focus:ring-2 focus:ring-sky-200">Keluar</button>
-                            </form>
+                    <div class="flex min-w-60 flex-col gap-3 lg:mt-6">
+                        <a href="{{ $apbdUrl }}" class="inline-flex items-center justify-center rounded-xl bg-sky-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-800 focus:outline-none focus:ring-4 focus:ring-sky-200">Detail Realisasi Fisik dan Keuangan</a>
+                        <a href="{{ route('dashboard.iku') }}" class="inline-flex items-center justify-center rounded-xl border border-sky-200 bg-white px-4 py-2 text-sm font-semibold text-sky-800 shadow-sm transition hover:border-sky-300 hover:bg-sky-50 focus:outline-none focus:ring-4 focus:ring-sky-100">Dashboard IKU</a>
+                        <a href="{{ route('dashboard.ikk') }}" class="inline-flex items-center justify-center rounded-xl border border-sky-200 bg-white px-4 py-2 text-sm font-semibold text-sky-800 shadow-sm transition hover:border-sky-300 hover:bg-sky-50 focus:outline-none focus:ring-4 focus:ring-sky-100">Dashboard IKK</a>
+                    </div>
+
+                    <div class="flex w-fit items-center gap-2 self-start rounded-xl border border-slate-200 bg-slate-50/90 px-2 py-1.5 shadow-sm lg:mt-6 lg:justify-self-end">
+                        <div class="flex min-w-0 items-center gap-1.5 text-sm text-slate-700">
+                            <span class="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-sky-100 text-[0.6875rem] font-bold text-sky-800" aria-hidden="true">A</span>
+                            <span class="max-w-32 truncate font-medium" title="{{ $user?->name }}">{{ $user?->name }}</span>
                         </div>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="inline-flex items-center gap-1 rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-xs font-semibold text-rose-700 transition hover:border-rose-300 hover:bg-rose-100 hover:text-rose-800 focus:outline-none focus:ring-4 focus:ring-rose-100">
+                                <span aria-hidden="true">↪</span>
+                                Keluar
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -67,23 +72,6 @@
                 @endif
         </section>
 
-        <p class="mx-auto mt-4 max-w-5xl px-4 text-center text-sm leading-6 text-slate-600">Data bersumber dari file Excel Online yang sama. Setelah operator menyimpan dan memperbarui dashboard Excel, tekan “Muat Ulang Data” untuk melihat perubahan terbaru.</p>
+        <p class="mx-auto mt-4 max-w-5xl px-4 text-center text-sm leading-6 text-slate-600">Data bersumber dari file Excel Online yang sama. Perubahan yang disimpan operator akan tersedia saat halaman dibuka kembali.</p>
     </main>
-
-    @if ($embedUrl)
-        <script>
-            const iframe = document.getElementById('excel-dashboard');
-            const loading = document.getElementById('excel-loading');
-            const refreshButton = document.getElementById('refresh-dashboard');
-
-            refreshButton?.addEventListener('click', () => {
-                if (!iframe) {
-                    return;
-                }
-
-                loading?.classList.remove('hidden');
-                iframe.src = iframe.getAttribute('src') || iframe.src;
-            });
-        </script>
-    @endif
 @endsection

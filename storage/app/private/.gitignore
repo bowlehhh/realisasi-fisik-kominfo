@@ -2,3 +2,7 @@
 !.gitignore
 !dashboard-apbd/
 !dashboard-apbd/index.html
+!dashboard-iku/
+!dashboard-iku/index.html
+!dashboard-ikk/
+!dashboard-ikk/index.html

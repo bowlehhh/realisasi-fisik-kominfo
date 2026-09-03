@@ -11,6 +11,8 @@ class DashboardAccessTest extends TestCase
         foreach ([
             route('dashboard.index'),
             route('dashboard.apbd'),
+            route('dashboard.iku'),
+            route('dashboard.ikk'),
         ] as $url) {
             $this->get($url)->assertRedirect(route('login'));
         }
@@ -22,8 +24,10 @@ class DashboardAccessTest extends TestCase
         $this->getJson('/api/dashboard/excel-values')->assertNotFound();
     }
 
-    public function test_static_apbd_dashboard_file_is_not_publicly_accessible(): void
+    public function test_static_dashboard_files_are_not_publicly_accessible(): void
     {
-        $this->get('/dashboard-apbd.html')->assertNotFound();
+        foreach (['/dashboard-apbd.html', '/dashboard-iku/index.html', '/dashboard-ikk/index.html'] as $url) {
+            $this->get($url)->assertNotFound();
+        }
     }
 }
