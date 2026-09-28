@@ -50,6 +50,10 @@
                 </div>
 
                 @if ($embedUrl)
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-4 py-3 sm:px-5">
+                        <p id="excel-refresh-status" class="text-sm text-slate-600" role="status" aria-live="polite">Pembaruan otomatis setiap 30 detik saat halaman aktif.</p>
+                        <button id="excel-refresh" type="button" class="rounded-xl border border-sky-200 bg-white px-4 py-2 text-sm font-semibold text-sky-800 hover:bg-sky-50 focus:outline-none focus:ring-4 focus:ring-sky-100 disabled:cursor-wait disabled:opacity-50">Perbarui sekarang</button>
+                    </div>
                     <div class="relative w-full min-w-0 bg-slate-100">
                         <div id="excel-loading" class="absolute inset-0 z-30 grid place-items-center bg-slate-100 text-center text-sm text-slate-600" role="status" aria-live="polite"><div><div class="mx-auto mb-3 h-9 w-9 animate-spin rounded-full border-4 border-sky-100 border-t-sky-700"></div>Memuat Dashboard Excel Online…</div></div>
                         <div class="border-b border-slate-200 bg-white px-4 py-3 sm:hidden">
@@ -72,6 +76,8 @@
                 @endif
         </section>
 
-        <p class="mx-auto mt-4 max-w-5xl px-4 text-center text-sm leading-6 text-slate-600">Data bersumber dari file Excel Online yang sama. Perubahan yang disimpan operator akan tersedia saat halaman dibuka kembali.</p>
+        @if ($embedUrl)
+            <p class="mx-auto mt-4 max-w-5xl px-4 text-center text-sm leading-6 text-slate-600">Tampilan Excel dimuat ulang otomatis setiap 30 detik saat halaman aktif. Perubahan tampil setelah tersimpan dan tersedia di Excel Online. Filter bulan dan kegiatan dapat kembali ke tampilan awal saat dimuat ulang.</p>
+        @endif
     </main>
 @endsection
